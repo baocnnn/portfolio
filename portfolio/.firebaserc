@@ -1,5 +1,7 @@
 {
   "projects": {
     "default": "my-portfolio-b7570"
-  }
+  },
+  "targets": {},
+  "etags": {}
 }
