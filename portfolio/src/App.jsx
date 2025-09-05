@@ -43,25 +43,33 @@ function ProjectCard({ title, description, stack, demo, code }) {
 const projects = [
   {
     title: "To-do App",
-    description: "App to track tasks",
+    description: "App to track tasks with the ability to hide tasks set to complete.",
     stack: ["HTML", "CSS", "Javascript"],
     demo: "#",
     code: "#",
   },
   {
     title: "Blood Bowl League Website",
-    description: "Standings, matches, rosters and general information stored in a user friendly layout",
+    description: "Collaborated with a friend to build a webpage containing standings, matches, rosters and general information stored in a user friendly layout",
     stack: ["HTML", "CSS", "AWS S3"],
-    demo: "#",
-    code: "#",
+    demo: "https://baconbloodbowlleague.com/",
+    code: "https://github.com/baocnnn/bacon-blood-bowl",
   },
   {
     title: "Pomodoro App",
     description: "App created based off of the Pomodoro method, timer for spaced out activity",
     stack: ["HTML", "CSS", "Javascript"],
     demo: "#",
-    code: "#",
+    code: "https://github.com/baocnnn/pomodoro-app",
   },
+ /*{
+    title: "Discord Bot",
+    description: "Discord bot that responds to user queries with programmed responses",
+    stack: ["HTML", "CSS", "Javascript"],
+    demo: "#",
+    code: "#",
+  },*/
+
 ];
 
 export default function App() {
@@ -75,7 +83,7 @@ export default function App() {
           <p className="eyebrow">Portfolio</p>
           <h1 className="title">Chris Pascarella</h1>
           <p className="lead muted">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos nesciunt vero, error laboriosam cupiditate quisquam similique numquam. Ducimus quod doloremque error, ea, quibusdam assumenda similique atque cum iure, praesentium tenetur.
+            Junior Full-stack developer 
           </p>
           <div className="cta">
             <a className="btn" href="#projects">View Projects</a>
@@ -97,7 +105,7 @@ export default function App() {
         <section id="about">
           <SectionTitle eyebrow="Who I Am" title="About" />
           <p className="muted">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga quas voluptatem optio sed nostrum dolorem vitae ipsam quia ratione. Adipisci id nulla eius quo repellendus dolore ipsa nostrum, facilis corporis!
+          I’m a junior full-stack developer who turns messy ideas into clean, fast web apps. I’m currently working with HTML/CSS/JS, React + Vite, Node, Git/GitHub, with exposure to AWS, MongoDB, Firebase, and SQL. Recent projects include a league site (deployed on AWS) and a React portfolio (Firebase Hosting). I iterate quickly, communicate clearly, and keep performance and readability front and center.
           </p>
         </section>
 
