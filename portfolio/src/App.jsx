@@ -11,6 +11,13 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const sectionRefs = useRef({});
 
+    // Social media links
+  const socialLinks = {
+  github: 'https://github.com/baocnnn',
+  linkedin: 'https://www.linkedin.com/in/chrispascarella/',
+  email: 'mailto:chris.pascarella@hotmail.com',
+  
+};
   // Handle scroll effects and intersection observer
   useEffect(() => {
     const handleScroll = () => {
@@ -90,7 +97,7 @@ const handleNavClick = (e, targetId) => {
       description: 'App created to manage daily tasks.',
       tags: ['HTML', 'CSS', 'JS'],
       emoji: '💡',
-      liveUrl: 'https://your-project.com',
+      liveUrl: 'https://todoapp-cbp.web.app/',
       githubUrl: 'https://github.com/baocnnn/todoApp'  
     },
     {
@@ -108,7 +115,7 @@ const handleNavClick = (e, targetId) => {
       description: 'App created based off of the Pomodoro method, timer for spaced out activity.',
       tags: ['HTML', 'CSS', 'JS'],
       emoji: '🎨',
-      liveUrl: 'https://your-project.com',
+      liveUrl: 'https://pomodoro-app-649aa.web.app/',
       githubUrl: 'https://github.com/baocnnn/pomodoro-app'
     }
   ];
@@ -250,7 +257,7 @@ const handleNavClick = (e, targetId) => {
           <div className="grid md:grid-cols-[1fr,2fr] gap-12 items-center">
             <div className="flex justify-center">
               <div className="w-64 h-64 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl animate-morph">
-                <img src={portfolioImage} alt="Chris P" className='w-64 h-48 rounded-full object-cover' />
+                <img src={portfolioImage} alt="Chris P" className='w-64 h-64 rounded-full object-cover' />
               </div>
             </div>
             <div className="text-gray-300">
@@ -412,12 +419,17 @@ const handleNavClick = (e, targetId) => {
       {/* Footer */}
       <footer className="py-8 px-6 bg-slate-900/80 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="flex justify-center gap-6 mb-4">
-            <Mail className="w-6 h-6 text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer" />
-            <Linkedin className="w-6 h-6 text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer" />
-            <Github className="w-6 h-6 text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer" />
-            <Twitter className="w-6 h-6 text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer" />
-            <Instagram className="w-6 h-6 text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer" />
+          <div className="flex justify-center gap-12 mb-4">
+            {socialLinks.github && (
+              <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="GitHub"> 
+              <Github className='w-6 h-6' />
+              </a>
+            )}
+            {socialLinks.linkedin && (
+              <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
+                <Linkedin className='w-6 h-6' />
+              </a> 
+            )}           
           </div>
           <p className="text-gray-400">© {new Date().getFullYear()} Chris Pascarella. All rights reserved.</p>
         </div>
