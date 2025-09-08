@@ -254,11 +254,26 @@ const handleNavClick = (e, targetId) => {
               </div>
             </div>
             <div className="text-gray-300">
-              <p className="text-lg leading-relaxed mb-6">
-                I’m a junior full-stack developer who turns messy ideas into clean, fast web apps. I iterate quickly, communicate clearly, and keep performance and readability front and center.
+              <p className="text-lg leading-relaxed mb-4">
+              I'm a junior full-stack developer who learns by building. From creating this portfolio to 
+              developing a discord bot, each project teaches me something new about writing cleaner 
+              code, better user experiences, and scalable solutions.
+              </p>
+
+          <p className="text-lg leading-relaxed mb-4">
+                While I'm still early in my development journey, I've built a strong foundation in modern 
+               web technologies through hands-on projects, online courses, and countless hours of debugging. 
+               I believe the best way to learn is by doing, failing, and iterating until it works.
+              </p>
+
+          <p className="text-lg leading-relaxed mb-6">
+                I'm actively seeking a junior developer role where I can contribute to a team while having 
+                mentorship to accelerate my growth. I'm not afraid to ask questions, take on challenges 
+                beyond my comfort zone, or spend extra time ensuring I understand not just the 'how' but 
+                the 'why' behind the code.
               </p>
               <h3 className="text-2xl font-semibold text-indigo-400 mb-4">My skills that I'm currently growing</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-4 md:grid-cols-4 gap-4">
                 {skills.map((skill, i) => (
                   <div 
                     key={skill.name}
