@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, Mail, Linkedin, Twitter, Instagram, Github, Code, Palette, Server, Database, Brain, Smartphone, Code2, Pencil, CodeIcon, CodeSquare, Plane, CodeXml, FireExtinguisher, ExternalLink } from 'lucide-react';
 import './App.css';
+import portfolioImage from './assets/portfolio.jpg';
 
 function App() {
   // State management
@@ -249,7 +250,7 @@ const handleNavClick = (e, targetId) => {
           <div className="grid md:grid-cols-[1fr,2fr] gap-12 items-center">
             <div className="flex justify-center">
               <div className="w-64 h-64 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl animate-morph">
-                <img src="../portfolio.jpg" alt="Chris Pascarella" className='w-64 h-48 rounded-full object-cover' />
+                <img src={portfolioImage} alt="Chris P" className='w-64 h-48 rounded-full object-cover' />
               </div>
             </div>
             <div className="text-gray-300">
