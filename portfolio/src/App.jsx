@@ -284,7 +284,7 @@ const handleNavClick = (e, targetId) => {
                 {skills.map((skill, i) => (
                   <div 
                     key={skill.name}
-                    className="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-indigo-500/20 hover:border-indigo-500 hover:bg-slate-800/80 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 cursor-pointer flex flex-col items-center gap-2"
+                    className="bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-indigo-500/20 hover:border-indigo-500 hover:bg-slate-800/80 hover:transform hover:-translate-y-1 hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 flex flex-col items-center gap-2"
                     style={{ animationDelay: `${i * 100}ms` }}
                   >
                     <div className="text-indigo-400">{skill.icon}</div>
