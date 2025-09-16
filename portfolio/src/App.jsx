@@ -2,6 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronRight, Mail, Linkedin, Twitter, Instagram, Github, Code, Palette, Server, Database, Brain, Smartphone, Code2, Pencil, CodeIcon, CodeSquare, Plane, CodeXml, FireExtinguisher, ExternalLink } from 'lucide-react';
 import './App.css';
 import portfolioImage from './assets/portfolio.jpg';
+import bbImage from './assets/BBBL.png'
+import pomoImage from './assets/pomo.png'
+import todoImage from './assets/todo.png'
+import emailjs from '@emailjs/browser';
+
+
 
 function App() {
   // State management
@@ -11,12 +17,15 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const sectionRefs = useRef({});
 
+  useEffect(() => {
+  emailjs.init("PahRm_rzhwHpUtWc2"); 
+}, []);
+
     // Social media links
   const socialLinks = {
   github: 'https://github.com/baocnnn',
   linkedin: 'https://www.linkedin.com/in/chrispascarella/',
-  email: 'mailto:chris.pascarella@hotmail.com',
-  
+    
 };
   // Handle scroll effects and intersection observer
   useEffect(() => {
@@ -58,15 +67,37 @@ const handleNavClick = (e, targetId) => {
   };
 
   // Form submission handler
-  const handleFormSubmit = () => {
-    if (formData.name && formData.email && formData.message) {
+ const handleFormSubmit = () => {
+  if (formData.name && formData.email && formData.message) {
+    // Show loading state 
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Sending...';
+    
+    // Send email
+    emailjs.send(
+      'service_cp782zi', 
+      'template_aftncqb', 
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+        to_name: 'Chris', 
+      }
+    )
+    .then(() => {
       alert('Thank you for your message! I\'ll get back to you soon.');
       setFormData({ name: '', email: '', message: '' });
-    } else {
-      alert('Please fill in all fields');
-    }
-  };
-
+      btn.textContent = 'Send Message';
+    })
+    .catch((error) => {
+      alert('Failed to send message. Please try again.');
+      console.error('Email error:', error);
+      btn.textContent = 'Send Message';
+    });
+  } else {
+    alert('Please fill in all fields');
+  }
+};
   // Data arrays
   const navLinks = [
     { href: 'home', label: 'Home' },
@@ -94,9 +125,9 @@ const handleNavClick = (e, targetId) => {
     {
       id: 1,
       title: 'To-Do App',
-      description: 'App created to manage daily tasks.',
+      description: 'First project created using local storage to retain data and a filter system to customize output.',
       tags: ['HTML', 'CSS', 'JS'],
-      emoji: '💡',
+      emoji: <img src={todoImage} alt="Project 1" className='w-100 h-48 square object-cover' />,
       liveUrl: 'https://todoapp-cbp.web.app/',
       githubUrl: 'https://github.com/baocnnn/todoApp'  
     },
@@ -105,16 +136,16 @@ const handleNavClick = (e, targetId) => {
       title: 'Blood Bowl League Website',
       description: 'Collaborated with a friend to build a webpage containing standings, matches, rosters and general information stored in a user friendly layout.',
       tags: ['HTML', 'CSS', 'AWS S3'],
-      emoji: '💡',
+      emoji: <img src={bbImage} alt="Project 2" className='w-120 h-48 square object-cover' />,
       liveUrl: 'https://baconbloodbowlleague.com/',
       githubUrl: 'https://github.com/baocnnn/bacon-blood-bowl'
     },
     {
       id: 3,
       title: 'Pomodoro App',
-      description: 'App created based off of the Pomodoro method, timer for spaced out activity.',
+      description: 'Basic App created based off of the Pomodoro method, timer for spaced out activity.',
       tags: ['HTML', 'CSS', 'JS'],
-      emoji: '🎨',
+      emoji: <img src={pomoImage} alt="Project 3" className='w-100 h-48 square object-cover' />,
       liveUrl: 'https://pomodoro-app-649aa.web.app/',
       githubUrl: 'https://github.com/baocnnn/pomodoro-app'
     }
@@ -262,22 +293,17 @@ const handleNavClick = (e, targetId) => {
             </div>
             <div className="text-gray-300">
               <p className="text-lg leading-relaxed mb-4">
-              I'm a junior full-stack developer who learns by building. From creating this portfolio to 
-              developing a discord bot, each project teaches me something new about writing cleaner 
-              code, better user experiences, and scalable solutions.
+              I’m a junior full-stack developer who learns by doing. From building this portfolio to coding a Discord bot, every project teaches me something new and helps me level up as a developer. 
+              I love taking on tricky problems and turning them into cool, working solutions. 
               </p>
 
           <p className="text-lg leading-relaxed mb-4">
-                While I'm still early in my development journey, I've built a strong foundation in modern 
-               web technologies through hands-on projects, online courses, and countless hours of debugging. 
-               I believe the best way to learn is by doing, failing, and iterating until it works.
+                I’m still early in my journey, but I’ve thrown myself into learning through hands-on projects, online courses, and plenty of trial and error. For me, the best way to grow is to build, break things, and keep at it until it clicks.
               </p>
 
           <p className="text-lg leading-relaxed mb-6">
-                I'm actively seeking a junior developer role where I can contribute to a team while having 
-                mentorship to accelerate my growth. I'm not afraid to ask questions, take on challenges 
-                beyond my comfort zone, or spend extra time ensuring I understand not just the 'how' but 
-                the 'why' behind the code.
+                I’m looking for a junior developer role where I can keep learning, work with a great team, and have mentorship to speed up my growth. 
+                I’m not afraid to ask questions, take on challenges that stretch me, or put in extra time to really understand the code I write.
               </p>
               <h3 className="text-2xl font-semibold text-indigo-400 mb-4">My skills that I'm currently growing</h3>
               <div className="grid grid-cols-4 md:grid-cols-4 gap-4">
@@ -407,6 +433,7 @@ const handleNavClick = (e, targetId) => {
               ></textarea>
             </div>
             <button 
+            id="submit-btn"
               onClick={handleFormSubmit}
               className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-1 transition-all duration-300"
             >
