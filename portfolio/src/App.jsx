@@ -6,6 +6,7 @@ import bbImage from './assets/BBBL.png'
 import pomoImage from './assets/pomo.png'
 import todoImage from './assets/todo.png'
 import emailjs from '@emailjs/browser';
+import aiTutor from './assets/aiTutor.png'
 
 
 
@@ -124,28 +125,38 @@ const handleNavClick = (e, targetId) => {
   const projects = [
     {
       id: 1,
-      title: 'To-Do App',
-      description: 'First project created using local storage to retain data and a filter system to customize output.',
-      tags: ['HTML', 'CSS', 'JS'],
-      emoji: <img src={todoImage} alt="Project 1" className='w-100 h-48 square object-cover' />,
-      liveUrl: 'https://todoapp-cbp.web.app/',
-      githubUrl: 'https://github.com/baocnnn/todoApp'  
+      title: 'Japanese AI Tutor',
+      description: 'Project using a backend Claude API prompted to teach Japanese using common scenarios.',
+      tags: [],
+      emoji: <img src={aiTutor} alt="Project 1" className='w-100 h-48 square object-cover' />,
+      liveUrl: 'https://japanese-ai-tutor-cbp.web.app/',
+      githubUrl: 'https://github.com/baocnnn/japanese-ai-tutor'  
     },
     {
       id: 2,
       title: 'Blood Bowl League Website',
       description: 'Collaborated with a friend to build a webpage containing standings, matches, rosters and general information stored in a user friendly layout.',
-      tags: ['HTML', 'CSS', 'AWS S3'],
+      tags: [],
       emoji: <img src={bbImage} alt="Project 2" className='w-120 h-48 square object-cover' />,
       liveUrl: 'https://baconbloodbowlleague.com/',
       githubUrl: 'https://github.com/baocnnn/bacon-blood-bowl'
     },
     {
       id: 3,
+      title: 'To-Do App',
+      description: 'First project created using local storage to retain data and a filter system to sort between completed and incomplete tasks.',
+      tags: [],
+      emoji: <img src={todoImage} alt="Project 3" className='w-100 h-48 square object-cover' />,
+      liveUrl: 'https://todoapp-cbp.web.app/',
+      githubUrl: 'https://github.com/baocnnn/todoApp'  
+    },
+    
+    {
+      id: 4,
       title: 'Pomodoro App',
       description: 'Basic App created based off of the Pomodoro method, timer for spaced out activity.',
-      tags: ['HTML', 'CSS', 'JS'],
-      emoji: <img src={pomoImage} alt="Project 3" className='w-100 h-48 square object-cover' />,
+      tags: [],
+      emoji: <img src={pomoImage} alt="Project 4" className='w-100 h-48 square object-cover' />,
       liveUrl: 'https://pomodoro-app-649aa.web.app/',
       githubUrl: 'https://github.com/baocnnn/pomodoro-app'
     }
@@ -271,7 +282,20 @@ const handleNavClick = (e, targetId) => {
               Get In Touch
             </a>
           </div>
+          <div className="flex justify-center gap-10 mb-4 mt-8">
+            {socialLinks.github && (
+              <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="GitHub"> 
+              <Github className='w-10 h-10' />
+              </a>
+            )}
+            {socialLinks.linkedin && (
+              <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
+                <Linkedin className='w-10 h-10' />
+              </a> 
+            )}           
+          </div>
         </div>
+        
       </section>
 
       {/* About Section */}
@@ -287,13 +311,13 @@ const handleNavClick = (e, targetId) => {
           </h2>
           <div className="grid md:grid-cols-[1fr,2fr] gap-12 items-center">
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl animate-morph">
+              <div className="w-64 h-64 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl">
                 <img src={portfolioImage} alt="Chris P" className='w-64 h-64 rounded-full object-cover' />
               </div>
             </div>
             <div className="text-gray-300">
               <p className="text-lg leading-relaxed mb-4">
-              I’m a junior full-stack developer who learns by doing. From building this portfolio to coding a Discord bot, every project teaches me something new and helps me level up as a developer. 
+              I’m a junior full-stack developer who learns by doing. Every project teaches me something new and helps me grow as a developer. 
               I love taking on tricky problems and turning them into cool, working solutions. 
               </p>
 
@@ -338,7 +362,7 @@ const handleNavClick = (e, targetId) => {
   {projects.map((project, i) => (
     <div 
       key={project.id}
-      className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-indigo-500/20 hover:border-indigo-500 hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 group flex flex-col"
+      className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-indigo-500/20 hover:border-indigo-500 hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 group flex flex-col "
       style={{ animationDelay: `${i * 150}ms` }}
     >
       <div className="h-48 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300">
