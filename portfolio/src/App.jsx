@@ -7,8 +7,10 @@ import pomoImage from './assets/pomo.png'
 import todoImage from './assets/todo.png'
 import emailjs from '@emailjs/browser';
 import aiTutor from './assets/aiTutor.png'
-
-
+import stars from './assets/stars.png';
+import twinkling from './assets/twinkling.png';
+import clouds from './assets/clouds_repeat.png';
+import moon from './assets/moon2.png';
 
 function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +31,6 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -40,10 +41,8 @@ function App() {
       },
       { threshold: 0.1, rootMargin: '0px 0px -100px 0px' }
     );
-
     window.addEventListener('scroll', handleScroll);
     Object.values(sectionRefs.current).forEach(ref => { if (ref) observer.observe(ref); });
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
@@ -91,34 +90,12 @@ function App() {
     { href: 'contact', label: 'Contact' }
   ];
 
-  // Skills grouped by category — add new skills or categories here to scale
-  const skillGroups = [
-    {
-      category: 'Languages & Frameworks',
-      skills: ['Python', 'TypeScript', 'JavaScript', 'Node.js', 'React', 'Angular', 'Go']
-    },
-    {
-      category: 'Infrastructure & APIs',
-      skills: ['RESTful APIs', 'Microservices', 'API Integration', 'Webhooks', 'Docker', 'Firebase', 'AWS (EC2, S3)', 'CI/CD Pipelines']
-    },
-    {
-      category: 'Databases',
-      skills: ['PostgreSQL', 'MongoDB', 'SQL']
-    },
-    {
-      category: 'Tools',
-      skills: ['Git', 'Linux', 'Claude API', 'LLM APIs', 'Debugging', 'Production Support']
-    },
-  ];
-
-  // Professional work — add new entries here to scale
   const professionalProjects = [
     {
       id: 'kudos',
       title: 'Kudos & Rewards App',
       subtitle: 'Full-Stack Internal Web Application',
       icon: <Zap className="w-7 h-7" />,
-      iconBg: 'from-violet-500 to-purple-600',
       summary: 'A full-stack praise and rewards platform built to boost morale and recognize great work across the team.',
       details: [
         'Built with React + JSX on the frontend for a fast, responsive experience.',
@@ -134,7 +111,6 @@ function App() {
       title: 'Apex Bot',
       subtitle: 'Slack Bot + Trello Integration',
       icon: <Bot className="w-7 h-7" />,
-      iconBg: 'from-indigo-500 to-blue-600',
       summary: "A Python-powered Slack bot that connects the team's communication, recognition system, and project management into one seamless workflow.",
       details: [
         'Written in Python and tied directly to the shared PostgreSQL database.',
@@ -150,7 +126,6 @@ function App() {
       title: 'Startup Script',
       subtitle: 'Windows Automation Tool (.exe)',
       icon: <Terminal className="w-7 h-7" />,
-      iconBg: 'from-emerald-500 to-teal-600',
       summary: 'A packaged Windows executable that automates workstation startup, handles file path validation, and self-recovers from common software failures.',
       details: [
         'Boots all required applications automatically on workstation startup.',
@@ -203,18 +178,39 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-x-hidden">
+    <div className="min-h-screen text-white overflow-x-hidden">
 
-      {/* Animated Background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute top-[-200px] right-[-200px] w-[400px] h-[400px] rounded-full bg-indigo-500 opacity-20 blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-[-300px] left-[-300px] w-[600px] h-[600px] rounded-full bg-purple-500 opacity-20 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <style>{`
+        @keyframes move-background {
+          from { transform: translate3d(0px, 0px, 0px); }
+          to   { transform: translate3d(1000px, 0px, 0px); }
+        }
+        .vbp-header-menu-button__svg line {
+          stroke: white;
+          stroke-width: 2;
+          transition: transform 0.3s, opacity 0.3s;
+          transform-origin: center;
+          transform-box: fill-box;
+        }
+        .vbp-header-menu-button__svg line.top    { transform: translateY(-7px); }
+        .vbp-header-menu-button__svg line.bottom { transform: translateY(7px); }
+        .vbp-header-menu-button__svg line.top.menu-open    { transform: rotate(45deg); }
+        .vbp-header-menu-button__svg line.bottom.menu-open { transform: rotate(-45deg); }
+        .vbp-header-menu-button__svg line.middle.menu-open { opacity: 0; }
+      `}</style>
+
+      {/* ── FIXED stars+clouds background — sits behind everything, no moon ── */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', inset: 0, background: `black url(${stars}) repeat` }} />
+        <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: 10000, height: '100%', background: `transparent url(${twinkling}) repeat`, backgroundSize: '1000px 1000px', animation: 'move-background 70s linear infinite' }} />
+        <div style={{ position: 'absolute', top: 0, bottom: 0, right: 0, width: 10000, height: '100%', background: `transparent url(${clouds}) repeat`, backgroundSize: '1000px 1000px', animation: 'move-background 150s linear infinite' }} />
       </div>
 
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-2 bg-slate-900/95 backdrop-blur-lg' : 'py-4 bg-slate-900/80 backdrop-blur-md'}`}>
+      {/* ── NAV ── */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-2 backdrop-blur-lg' : 'py-4'}`}
+        style={{ backgroundColor: scrolled ? 'rgba(30,30,30,0.97)' : 'rgba(30,30,30,0.85)' }}>
         <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+          <div className="text-2xl font-bold text-white">
             Chris Pascarella
           </div>
           <ul className="hidden md:flex gap-8">
@@ -223,7 +219,7 @@ function App() {
                 <a
                   href={`#${link.href}`}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="relative text-gray-300 hover:text-white transition-colors duration-300 after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-indigo-500 after:transition-all after:duration-300 hover:after:w-full"
+                  className="relative text-gray-300 hover:text-white transition-colors duration-300 after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {link.label}
                 </a>
@@ -232,23 +228,21 @@ function App() {
           </ul>
           <button onClick={toggleMenu} className="md:hidden relative z-50" aria-label="Menu">
             <svg className="vbp-header-menu-button__svg" width="30" height="30">
-              <line x1="0" y1="50%" x2="100%" y2="50%" className={`top ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" stroke="currentColor" />
-              <line x1="0" y1="50%" x2="100%" y2="50%" className={`middle ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" stroke="currentColor" />
-              <line x1="0" y1="50%" x2="100%" y2="50%" className={`bottom ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" stroke="currentColor" />
+              <line x1="0" y1="50%" x2="100%" y2="50%" className={`top ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" />
+              <line x1="0" y1="50%" x2="100%" y2="50%" className={`middle ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" />
+              <line x1="0" y1="50%" x2="100%" y2="50%" className={`bottom ${menuOpen ? 'menu-open' : ''}`} shapeRendering="crispEdges" />
             </svg>
           </button>
         </div>
-        <div className={`md:hidden fixed inset-0 transition-all duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} style={{ top: '0', zIndex: 40 }}>
-          <div className="absolute inset-0 bg-black" style={{ marginTop: '60px' }}></div>
-          <div className="absolute inset-0 bg-slate-900" style={{ marginTop: '60px', opacity: 0.95 }}></div>
+        {/* Mobile menu */}
+        <div className={`md:hidden fixed inset-0 transition-all duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} style={{ top: 0, zIndex: 40, backgroundColor: 'rgba(20,20,20,0.97)' }}>
           <ul className="relative flex flex-col items-center gap-6 px-6" style={{ paddingTop: '120px', zIndex: 50 }}>
             {navLinks.map((link, index) => (
               <li key={link.href} style={{ animationDelay: `${index * 100}ms` }}>
                 <a
                   href={`#${link.href}`}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-3xl font-semibold text-white hover:text-indigo-400 transition-all duration-300 hover:scale-110 block ${menuOpen ? 'animate-fadeInUp' : ''}`}
-                  style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}
+                  className="text-3xl font-semibold text-white hover:text-gray-300 transition-all duration-300 hover:scale-110 block"
                 >
                   {link.label}
                 </a>
@@ -258,36 +252,53 @@ function App() {
         </div>
       </nav>
 
-      {/* ── HERO ── */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative z-10">
-        <div className="text-center px-6 animate-fadeInUp">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-indigo-400 bg-clip-text text-transparent">
-            Hi, I'm Chris Pascarella
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-400 mb-8">
-            Full-Stack Developer with a passion for automation.
-          </p>
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a href="#projects" onClick={(e) => handleNavClick(e, 'projects')}
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2">
-              View My Work<ChevronRight className="w-4 h-4" />
-            </a>
-            <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}
-              className="px-8 py-3 rounded-full border-2 border-indigo-500 text-indigo-400 font-semibold hover:bg-indigo-500 hover:text-white transform hover:-translate-y-1 transition-all duration-300">
-              Get In Touch
-            </a>
-          </div>
-          <div className="flex justify-center gap-10 mb-4 mt-8">
-            {socialLinks.github && (
-              <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="GitHub">
+      {/* ── HERO — moon on top of the fixed background ── */}
+      <section id="home" className="min-h-screen flex items-center justify-center relative" style={{ zIndex: 1 }}>
+        {/* Moon only shows in hero */}
+        <img src={moon} alt="" style={{ position: 'absolute', height: '70vh', width: '70vh', right: 20, top: 0, zIndex: 1, pointerEvents: 'none' }} />
+
+        <div className="text-center px-6 relative" style={{ zIndex: 2 }}>
+          {/* Backdrop so text is readable over the moon */}
+          <div style={{
+            position: 'absolute', inset: '-2rem -3rem',
+            background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.6) 40%, transparent 75%)',
+            pointerEvents: 'none',
+          }} />
+          <div style={{ position: 'relative' }}>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.9), 0 0 40px rgba(0,0,0,0.8)' }}>
+              Hi, I'm Chris
+            </h1>
+            <p className="text-xl md:text-2xl mb-8" style={{ color: '#d0d0d0', textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}>
+              Full-Stack Developer with a passion for automation.
+            </p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <a href="#projects" onClick={(e) => handleNavClick(e, 'projects')}
+                className="px-8 py-3 rounded-full text-white font-semibold transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
+                style={{ backgroundColor: 'rgba(0,0,0,0.5)', border: '2px solid white', backdropFilter: 'blur(6px)' }}
+                onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.7)'}
+                onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.5)'}>
+                View My Work <ChevronRight className="w-4 h-4" />
+              </a>
+              <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')}
+                className="px-8 py-3 rounded-full font-semibold transform hover:-translate-y-1 transition-all duration-300"
+                style={{ border: '2px solid rgba(255,255,255,0.6)', color: 'white', backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.65)'; e.currentTarget.style.borderColor = 'white'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.4)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)'; }}>
+                Get In Touch
+              </a>
+            </div>
+            <div className="flex justify-center gap-10 mb-4 mt-8">
+              <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="hover:-translate-y-1 transition-all duration-300" style={{ color: 'white', filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.9))' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+                onMouseLeave={e => e.currentTarget.style.color = 'white'} aria-label="GitHub">
                 <Github className='w-10 h-10' />
               </a>
-            )}
-            {socialLinks.linkedin && (
-              <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
+              <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="hover:-translate-y-1 transition-all duration-300" style={{ color: 'white', filter: 'drop-shadow(0 1px 4px rgba(0,0,0,0.9))' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#ccc'}
+                onMouseLeave={e => e.currentTarget.style.color = 'white'} aria-label="LinkedIn">
                 <Linkedin className='w-10 h-10' />
               </a>
-            )}
+            </div>
           </div>
         </div>
       </section>
@@ -296,40 +307,38 @@ function App() {
       <section
         id="about"
         ref={el => sectionRefs.current.about = el}
-        className={`py-20 px-6 relative z-10 transition-all duration-1000 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        className={`py-20 px-6 relative transition-all duration-1000 ${visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        style={{ zIndex: 1, backgroundColor: '#1a1a1a' }}
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 relative">
+          <h2 className="text-4xl font-bold text-center mb-12 relative text-white">
             About Me
-            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></span>
+            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1" style={{ background: 'linear-gradient(to right, transparent, white, transparent)' }}></span>
           </h2>
           <div className="grid md:grid-cols-[1fr,2fr] gap-12 items-start">
             <div className="flex justify-center">
-              <div className="w-64 h-64 rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+              <div className="w-64 h-64 rounded-3xl flex items-center justify-center" style={{ border: '2px solid rgba(255,255,255,0.2)' }}>
                 <img src={portfolioImage} alt="Chris P" className='w-64 h-64 rounded-full object-cover' />
               </div>
             </div>
-            <div className="text-gray-300">
+            <div style={{ color: '#c0c0c0' }}>
               <p className="text-lg leading-relaxed mb-4">
                 I'm a self-driven full-stack developer who learned by doing — hands-on projects, a lot of broken code, and not stopping until things work. Curiosity is what keeps me going, and every project adds something new to how I think and build.
               </p>
               <p className="text-lg leading-relaxed mb-8">
                 I used to compete in gaming, so the drive to keep improving is pretty natural for me. These days that energy goes into hiking, bouldering, volleyball, learning Japanese, finding new restaurants, and whatever book I'm in the middle of.
               </p>
-
-              <h3 className="text-2xl font-semibold text-indigo-400 mb-4">Skills</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {[
                   'Python', 'TypeScript', 'JavaScript', 'Node.js', 'React', 'Angular', 'Go',
                   'PostgreSQL', 'MongoDB', 'SQL',
                   'RESTful APIs', 'Microservices', 'API Integration', 'Webhooks',
-                  'Docker', 'Firebase', 'AWS (EC2, S3)', 'CI/CD Pipelines',
+                  'Docker', 'Railway', 'Firebase', 'AWS (EC2, S3)', 'CI/CD Pipelines',
                   'Git', 'Linux', 'Claude API', 'LLM APIs', 'Debugging', 'Production Support'
                 ].map(skill => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1 text-sm text-gray-300 bg-slate-800/80 border border-slate-700/50 rounded-full"
-                  >
+                  <span key={skill} className="px-3 py-1 text-sm rounded-full"
+                    style={{ color: '#c0c0c0', backgroundColor: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)' }}>
                     {skill}
                   </span>
                 ))}
@@ -343,16 +352,17 @@ function App() {
       <section
         id="professional"
         ref={el => sectionRefs.current.professional = el}
-        className={`py-20 px-6 relative z-10 transition-all duration-1000 ${visibleSections.has('professional') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        className={`py-20 px-6 relative transition-all duration-1000 ${visibleSections.has('professional') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        style={{ zIndex: 1, backgroundColor: '#222222' }}
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
-            <h2 className="text-4xl font-bold relative">
+            <h2 className="text-4xl font-bold relative text-white">
               Professional Work
-              <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></span>
+              <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1" style={{ background: 'linear-gradient(to right, transparent, white, transparent)' }}></span>
             </h2>
           </div>
-          <p className="text-gray-400 text-center mt-6 mb-12 max-w-2xl mx-auto">
+          <p className="text-center mt-6 mb-12 max-w-2xl mx-auto" style={{ color: '#a0a0a0' }}>
             Real-world tools built and deployed for an active dental practice — automating workflows, connecting systems, and improving day-to-day operations.
           </p>
 
@@ -360,50 +370,53 @@ function App() {
             {professionalProjects.map((project, i) => {
               const isExpanded = expandedProject === project.id;
               return (
-                <div
-                  key={project.id}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300 overflow-hidden"
-                  style={{ animationDelay: `${i * 150}ms` }}
+                <div key={project.id}
+                  className="rounded-2xl overflow-hidden transition-all duration-300"
+                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
                 >
                   <div className="p-6 flex items-start gap-5 cursor-pointer group" onClick={() => setExpandedProject(isExpanded ? null : project.id)}>
-                    <div className={`flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br ${project.iconBg} flex items-center justify-center text-white shadow-lg`}>
+                    <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
                       {project.icon}
                     </div>
                     <div className="flex-grow min-w-0">
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <h3 className="text-xl font-semibold text-white group-hover:text-indigo-400 transition-colors duration-200">{project.title}</h3>
-                          <p className="text-indigo-400/70 text-sm mt-0.5">{project.subtitle}</p>
+                          <h3 className="text-xl font-semibold text-white group-hover:text-gray-300 transition-colors duration-200">{project.title}</h3>
+                          <p className="text-sm mt-0.5" style={{ color: '#888' }}>{project.subtitle}</p>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
-                          <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
+                          <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-medium"
+                            style={{ backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.4)', color: '#4ade80' }}>
                             {project.status}
                           </span>
-                          <div className="text-gray-400 group-hover:text-indigo-400 transition-colors duration-200">
+                          <div style={{ color: '#888' }}>
                             {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                           </div>
                         </div>
                       </div>
-                      <p className="text-gray-400 mt-2 text-sm leading-relaxed">{project.summary}</p>
+                      <p className="mt-2 text-sm leading-relaxed" style={{ color: '#a0a0a0' }}>{project.summary}</p>
                     </div>
                   </div>
-
                   <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="px-6 pb-6 pt-0 border-t border-slate-700/50">
+                    <div className="px-6 pb-6 pt-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                       <div className="grid md:grid-cols-[1fr,auto] gap-6 pt-5">
                         <ul className="space-y-3">
                           {project.details.map((detail, j) => (
-                            <li key={j} className="flex items-start gap-3 text-gray-300 text-sm leading-relaxed">
-                              <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2"></span>
+                            <li key={j} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: '#c0c0c0' }}>
+                              <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-white mt-2"></span>
                               {detail}
                             </li>
                           ))}
                         </ul>
                         <div className="flex flex-col gap-2 md:items-end">
-                          <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Tech Stack</p>
+                          <p className="text-xs uppercase tracking-widest mb-1" style={{ color: '#666' }}>Tech Stack</p>
                           <div className="flex flex-wrap gap-2 md:justify-end">
                             {project.tech.map(t => (
-                              <span key={t} className="px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full text-xs">{t}</span>
+                              <span key={t} className="px-3 py-1 rounded-full text-xs"
+                                style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#d0d0d0' }}>
+                                {t}
+                              </span>
                             ))}
                           </div>
                         </div>
@@ -421,43 +434,46 @@ function App() {
       <section
         id="projects"
         ref={el => sectionRefs.current.projects = el}
-        className={`py-20 px-6 relative z-10 transition-all duration-1000 ${visibleSections.has('projects') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        className={`py-20 px-6 relative transition-all duration-1000 ${visibleSections.has('projects') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        style={{ zIndex: 1, backgroundColor: '#1a1a1a' }}
       >
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 relative">
+          <h2 className="text-4xl font-bold text-center mb-12 relative text-white">
             Personal Projects
-            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></span>
+            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1" style={{ background: 'linear-gradient(to right, transparent, white, transparent)' }}></span>
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {projects.map((project, i) => (
-              <div
-                key={project.id}
-                className="bg-slate-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-indigo-500/20 hover:border-indigo-500 hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-indigo-500/20 transition-all duration-300 group flex flex-col"
-                style={{ animationDelay: `${i * 150}ms` }}
+              <div key={project.id}
+                className="rounded-2xl overflow-hidden transition-all duration-300 group flex flex-col"
+                style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                onMouseEnter={e => e.currentTarget.style.border = '1px solid rgba(255,255,255,0.35)'}
+                onMouseLeave={e => e.currentTarget.style.border = '1px solid rgba(255,255,255,0.1)'}
               >
-                <div className="h-48 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-300">
+                <div className="h-48 flex items-center justify-center overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}>
                   {project.emoji}
                 </div>
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-semibold text-indigo-400 mb-2">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded-full text-sm">{tag}</span>
-                    ))}
-                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+                  <p className="mb-4" style={{ color: '#a0a0a0' }}>{project.description}</p>
                   <div className="flex-grow"></div>
-                  <div className="flex gap-3 justify-center mt-auto pt-4 border-t border-slate-700/50">
+                  <div className="flex gap-3 justify-center mt-auto pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                     {project.liveUrl && (
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition-colors duration-300 text-sm">
-                        <ExternalLink className="w-4 h-4" />Live Demo
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 text-sm text-white"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)' }}
+                        onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)'}
+                        onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)'}>
+                        <ExternalLink className="w-4 h-4" /> Live Demo
                       </a>
                     )}
                     {project.githubUrl && (
                       <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 border border-indigo-500 hover:bg-indigo-500/10 text-indigo-400 rounded-lg transition-colors duration-300 text-sm">
-                        <Github className="w-4 h-4" />Code
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 text-sm"
+                        style={{ border: '1px solid rgba(255,255,255,0.2)', color: '#c0c0c0', backgroundColor: 'transparent' }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = 'white'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#c0c0c0'; }}>
+                        <Github className="w-4 h-4" /> Code
                       </a>
                     )}
                   </div>
@@ -472,31 +488,44 @@ function App() {
       <section
         id="contact"
         ref={el => sectionRefs.current.contact = el}
-        className={`py-20 px-6 relative z-10 transition-all duration-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        className={`py-20 px-6 relative transition-all duration-1000 ${visibleSections.has('contact') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        style={{ zIndex: 1 }}
       >
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 relative">
+          <h2 className="text-4xl font-bold text-center mb-12 relative text-white">
             Get In Touch
-            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></span>
+            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1" style={{ background: 'linear-gradient(to right, transparent, white, transparent)' }}></span>
           </h2>
-          <div className="bg-slate-800/50 backdrop-blur-sm p-8 rounded-2xl border border-indigo-500/20">
+          <div className="p-8 rounded-2xl" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <div className="mb-6">
-              <label className="block text-indigo-400 mb-2">Name</label>
+              <label className="block text-white mb-2">Name</label>
               <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-900/50 border border-indigo-500/30 rounded-lg text-white focus:outline-none focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-500/20 transition-all duration-300" />
+                className="w-full px-4 py-3 rounded-lg text-white focus:outline-none transition-all duration-300"
+                style={{ backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)' }}
+                onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.6)'}
+                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.2)'} />
             </div>
             <div className="mb-6">
-              <label className="block text-indigo-400 mb-2">Email</label>
+              <label className="block text-white mb-2">Email</label>
               <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-900/50 border border-indigo-500/30 rounded-lg text-white focus:outline-none focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-500/20 transition-all duration-300" />
+                className="w-full px-4 py-3 rounded-lg text-white focus:outline-none transition-all duration-300"
+                style={{ backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)' }}
+                onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.6)'}
+                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.2)'} />
             </div>
             <div className="mb-6">
-              <label className="block text-indigo-400 mb-2">Message</label>
+              <label className="block text-white mb-2">Message</label>
               <textarea rows="5" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-4 py-3 bg-slate-900/50 border border-indigo-500/30 rounded-lg text-white focus:outline-none focus:border-indigo-500 focus:shadow-lg focus:shadow-indigo-500/20 transition-all duration-300"></textarea>
+                className="w-full px-4 py-3 rounded-lg text-white focus:outline-none transition-all duration-300"
+                style={{ backgroundColor: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.2)' }}
+                onFocus={e => e.target.style.borderColor = 'rgba(255,255,255,0.6)'}
+                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.2)'}></textarea>
             </div>
             <button id="submit-btn" onClick={handleFormSubmit}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transform hover:-translate-y-1 transition-all duration-300">
+              className="w-full py-3 rounded-lg text-white font-semibold transform hover:-translate-y-1 transition-all duration-300"
+              style={{ backgroundColor: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)' }}
+              onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)'}
+              onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)'}>
               Send Message
             </button>
           </div>
@@ -504,21 +533,23 @@ function App() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="py-8 px-6 bg-slate-900/80 relative z-10">
+      <footer className="py-8 px-6 relative" style={{ zIndex: 1, backgroundColor: '#1a1a1a', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex justify-center gap-12 mb-4">
-            {socialLinks.github && (
-              <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="GitHub">
-                <Github className='w-6 h-6' />
-              </a>
-            )}
-            {socialLinks.linkedin && (
-              <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="text-indigo-400 hover:text-purple-400 hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
-                <Linkedin className='w-6 h-6' />
-              </a>
-            )}
+            <a href={socialLinks.github} target='_blank' rel='noopener noreferrer' className="hover:-translate-y-1 transition-all duration-300"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'white'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'} aria-label="GitHub">
+              <Github className='w-6 h-6' />
+            </a>
+            <a href={socialLinks.linkedin} target='_blank' rel='noopener noreferrer' className="hover:-translate-y-1 transition-all duration-300"
+              style={{ color: 'rgba(255,255,255,0.6)' }}
+              onMouseEnter={e => e.currentTarget.style.color = 'white'}
+              onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'} aria-label="LinkedIn">
+              <Linkedin className='w-6 h-6' />
+            </a>
           </div>
-          <p className="text-gray-400">© {new Date().getFullYear()} Chris Pascarella. All rights reserved.</p>
+          <p style={{ color: '#666' }}>© {new Date().getFullYear()} Chris Pascarella. All rights reserved.</p>
         </div>
       </footer>
     </div>
