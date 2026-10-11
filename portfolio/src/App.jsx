@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronRight, Linkedin, Github, ExternalLink, Briefcase, Bot, Zap, Terminal, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronRight, Linkedin, Github, ExternalLink, Briefcase, Bot, Zap, Terminal, ChevronDown, ChevronUp, Cpu, ScanText, FlaskConical, CalendarClock, LayoutDashboard, MessageSquareText, ClipboardCheck, BrainCircuit } from 'lucide-react';
 import './App.css';
 import portfolioImage from './assets/portfolio.jpg';
 import bbImage from './assets/BBBL.png'
@@ -18,6 +18,7 @@ function App() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [menuOpen, setMenuOpen] = useState(false);
   const [expandedProject, setExpandedProject] = useState(null);
+  const [showEarlierProjects, setShowEarlierProjects] = useState(false);
   const sectionRefs = useRef({});
 
   useEffect(() => {
@@ -92,6 +93,111 @@ function App() {
 
   const professionalProjects = [
     {
+      id: 'local-ai-stack',
+      title: 'Local AI Agent Stack',
+      subtitle: 'Local-First LLM System',
+      icon: <Cpu className="w-7 h-7" />,
+      summary: "A local-first AI stack running on an on-premises GPU workstation that lets staff ask questions in Slack and get answers from the practice's systems.",
+      details: [
+        'Serves a local LLM through Ollama on an on-premises GPU workstation.',
+        "A FastAPI tools server connects the model to the practice's systems.",
+        "Patient data never leaves the practice's own machines; only non-sensitive tasks use cloud APIs.",
+        'Staff ask questions through a Slack bot and get answers without leaving Slack.',
+      ],
+      tech: ['Python', 'FastAPI', 'Ollama', 'Slack Bolt', 'Cloudflare Tunnel', 'Tailscale'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'ocr-pipeline',
+      title: 'Document OCR Pipeline',
+      subtitle: 'Local Vision-Language Model Extraction',
+      icon: <ScanText className="w-7 h-7" />,
+      summary: 'A locally hosted vision-language model pipeline that reads scanned patient forms and matches them to the right records.',
+      details: [
+        'Runs a Qwen vision-language model locally through Ollama.',
+        'Extracts data from scanned patient forms.',
+        'Matches each form to its record through REST API integration.',
+        'Cut a roughly 5-hour manual task down to about 10 minutes.',
+      ],
+      tech: ['Python', 'Qwen-VL', 'Ollama', 'REST API Integration'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'lab-cases',
+      title: 'Lab Case Automation',
+      subtitle: 'Scanner-to-Lab Workflow Automation',
+      icon: <FlaskConical className="w-7 h-7" />,
+      summary: 'Pulls digital scan cases from the intraoral scanner software, packages them, and prepares them for the dental labs.',
+      details: [
+        'Retrieves digital scan cases from the intraoral scanner software.',
+        'Packages each case and prepares it for the dental lab.',
+        'Uses desktop UI automation to drive a WPF application that has no web interface.',
+        'Posts status updates to Slack as cases move through the process.',
+      ],
+      tech: ['Python', 'pywinauto', 'Playwright', 'Google Drive API', 'Gmail API', 'Slack'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'daily-automations',
+      title: 'Daily Practice Automations',
+      subtitle: 'Scheduled Appointment Checks',
+      icon: <CalendarClock className="w-7 h-7" />,
+      summary: 'Scheduled jobs that check upcoming appointments and notify the right staff in Slack.',
+      details: [
+        'Checks upcoming appointments for orthodontic photo uploads.',
+        'Checks upcoming appointments for medication confirmations.',
+        'Checks upcoming appointments for pre-op sedation instructions.',
+        'Sends each notification to the right staff member in Slack.',
+      ],
+      tech: ['Python', 'APScheduler', 'REST APIs', 'Gmail OAuth', 'SQLite', 'Slack'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'automation-hub',
+      title: 'Automation Hub Dashboard',
+      subtitle: 'Monitoring for All Automations',
+      icon: <LayoutDashboard className="w-7 h-7" />,
+      summary: 'A monitoring dashboard that brings every automation into one place.',
+      details: [
+        'Shows heartbeats for each running automation.',
+        'Keeps a deploy history for each service.',
+        'Supports remote restart actions from the dashboard.',
+        'React + Vite frontend backed by a FastAPI service.',
+      ],
+      tech: ['React', 'Vite', 'Firebase', 'FastAPI', 'Railway'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'admin-helper',
+      title: 'Admin Helper',
+      subtitle: 'Claude-Powered Staff Assistant',
+      icon: <MessageSquareText className="w-7 h-7" />,
+      summary: 'A staff assistant backed by the Claude API, with human review for low-confidence answers.',
+      details: [
+        'Answers staff questions using the Claude API.',
+        'Flags low-confidence answers to a human for review.',
+        'A corrections system improves answers over time.',
+        'FastAPI backend with PostgreSQL, available to staff in Slack.',
+      ],
+      tech: ['FastAPI', 'Claude API', 'PostgreSQL', 'Slack'],
+      status: 'Live Internally',
+    },
+    {
+      id: 'scorecard',
+      title: '1:1 Scorecard',
+      subtitle: 'Leadership Meeting Evaluation Tool',
+      icon: <ClipboardCheck className="w-7 h-7" />,
+      summary: "A tool leadership uses in 1:1 meetings to review the meeting transcript and score the leader's performance against leadership's own values.",
+      details: [
+        'Reviews the audio transcript of a 1:1 meeting.',
+        "Evaluates the meeting against leadership's values.",
+        "Ranks the leader's performance out of 100 based on metrics assigned by leadership.",
+        'Web app hosted on Railway.',
+      ],
+      tech: ['Railway'],
+      status: 'Live Internally',
+    },
+    {
       id: 'kudos',
       title: 'Kudos & Rewards App',
       subtitle: 'Full-Stack Internal Web Application',
@@ -138,24 +244,32 @@ function App() {
     },
   ];
 
+  const featuredProject = {
+    title: 'FDA Agent',
+    subtitle: 'Agentic Web App',
+    description: 'An AI assistant that answers natural-language questions about food and drug recalls, medication adverse events, and drug labels using the public openFDA database. An MCP server wraps the openFDA API as tools, a LangChain + Claude agent decides which tools to call and writes the answer, and a React chat UI renders the responses. The repo includes full instructions for running it locally.',
+    tech: ['FastAPI', 'LangChain', 'Claude API', 'MCP', 'openFDA API', 'React', 'Vite'],
+    githubUrl: 'https://github.com/baocnnn/fda-agent'
+  };
+
   const projects = [
     {
       id: 1,
-      title: 'Japanese AI Tutor',
-      description: 'Personal project built using React a backend Claude API prompted to teach Japanese using common scenarios.',
-      tags: [],
-      emoji: <img src={aiTutor} alt="Project 1" className='w-100 h-48 square object-cover' />,
-      liveUrl: 'https://japanese-ai-tutor-cbp.web.app/',
-      githubUrl: 'https://github.com/baocnnn/japanese-ai-tutor'
-    },
-    {
-      id: 2,
       title: 'Blood Bowl League Website',
       description: 'Collaborated with a friend to build a webpage containing standings, matches, rosters and general information stored in a user friendly layout.',
       tags: [],
       emoji: <img src={bbImage} alt="Project 2" className='w-120 h-48 square object-cover' />,
       liveUrl: 'https://baconbloodbowlleague.com/',
       githubUrl: 'https://github.com/baocnnn/bacon-blood-bowl'
+    },
+    {
+      id: 2,
+      title: 'Japanese AI Tutor',
+      description: 'Personal project built using React a backend Claude API prompted to teach Japanese using common scenarios.',
+      tags: [],
+      emoji: <img src={aiTutor} alt="Project 1" className='w-100 h-48 square object-cover' />,
+      liveUrl: 'https://japanese-ai-tutor-cbp.web.app/',
+      githubUrl: 'https://github.com/baocnnn/japanese-ai-tutor'
     },
     {
       id: 3,
@@ -335,7 +449,9 @@ function App() {
                   'PostgreSQL', 'MongoDB', 'SQL',
                   'RESTful APIs', 'Microservices', 'API Integration', 'Webhooks',
                   'Docker', 'Railway', 'Firebase', 'AWS (EC2, S3)', 'CI/CD Pipelines',
-                  'Git', 'Linux', 'Claude API', 'LLM APIs', 'Debugging', 'Production Support'
+                  'Git', 'Linux', 'Claude API', 'LLM APIs', 'Debugging', 'Production Support',
+                  'Ollama / Local LLMs', 'FastAPI', 'LangChain', 'Slack API', 'Playwright',
+                  'pywinauto (Desktop Automation)', 'Vision-Language Models (OCR)'
                 ].map(skill => (
                   <span key={skill} className="px-3 py-1 text-sm rounded-full"
                     style={{ color: '#c0c0c0', backgroundColor: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)' }}>
@@ -442,7 +558,59 @@ function App() {
             Personal Projects
             <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1" style={{ background: 'linear-gradient(to right, transparent, white, transparent)' }}></span>
           </h2>
-          <div className="grid grid-cols-2 gap-6">
+
+          {/* Featured project */}
+          <div
+            className="rounded-2xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row"
+            style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+            onMouseEnter={e => e.currentTarget.style.border = '1px solid rgba(255,255,255,0.35)'}
+            onMouseLeave={e => e.currentTarget.style.border = '1px solid rgba(255,255,255,0.1)'}
+          >
+            <div className="h-48 md:h-auto md:w-2/5 flex-shrink-0 flex items-center justify-center text-white" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}>
+              <div className="w-24 h-24 rounded-2xl flex items-center justify-center"
+                style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                <BrainCircuit className="w-12 h-12" />
+              </div>
+            </div>
+            <div className="p-6 md:p-8 flex flex-col flex-grow">
+              <h3 className="text-2xl font-semibold text-white">{featuredProject.title}</h3>
+              <p className="text-sm mt-0.5 mb-4" style={{ color: '#888' }}>{featuredProject.subtitle}</p>
+              <p className="mb-5 leading-relaxed" style={{ color: '#a0a0a0' }}>{featuredProject.description}</p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {featuredProject.tech.map(t => (
+                  <span key={t} className="px-3 py-1 rounded-full text-xs"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#d0d0d0' }}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-3 justify-center md:justify-start mt-auto pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <a href={featuredProject.githubUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-300 text-sm"
+                  style={{ border: '1px solid rgba(255,255,255,0.2)', color: '#c0c0c0', backgroundColor: 'transparent' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = 'white'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#c0c0c0'; }}>
+                  <Github className="w-4 h-4" /> Code
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Earlier projects (collapsed by default) */}
+          <button
+            onClick={() => setShowEarlierProjects(!showEarlierProjects)}
+            aria-expanded={showEarlierProjects}
+            className="mt-10 mx-auto flex items-center gap-2 px-5 py-2 rounded-full text-sm transition-colors duration-300"
+            style={{ border: '1px solid rgba(255,255,255,0.2)', color: '#c0c0c0', backgroundColor: 'transparent' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'; e.currentTarget.style.color = 'white'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'; e.currentTarget.style.color = '#c0c0c0'; }}
+          >
+            Earlier projects
+            {showEarlierProjects ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+          <div inert={!showEarlierProjects}
+            className={`transition-all duration-500 ease-in-out overflow-hidden ${showEarlierProjects ? 'max-h-[4000px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {projects.map((project, i) => (
               <div key={project.id}
                 className="rounded-2xl overflow-hidden transition-all duration-300 group flex flex-col"
@@ -480,6 +648,7 @@ function App() {
                 </div>
               </div>
             ))}
+          </div>
           </div>
         </div>
       </section>
