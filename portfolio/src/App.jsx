@@ -482,42 +482,36 @@ function App() {
             Real-world tools built and deployed for an active dental practice — automating workflows, connecting systems, and improving day-to-day operations.
           </p>
 
-          <div className="flex flex-col gap-6">
-            {professionalProjects.map((project, i) => {
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
+            {professionalProjects.map(project => {
               const isExpanded = expandedProject === project.id;
               return (
                 <div key={project.id}
                   className="rounded-2xl overflow-hidden transition-all duration-300"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+                  style={{ backgroundColor: isExpanded ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.05)', border: `1px solid ${isExpanded ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.1)'}` }}
+                  onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'; }}
+                  onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; }}
                 >
-                  <div className="p-6 flex items-start gap-5 cursor-pointer group" onClick={() => setExpandedProject(isExpanded ? null : project.id)}>
-                    <div className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center text-white"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
-                      {project.icon}
-                    </div>
-                    <div className="flex-grow min-w-0">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h3 className="text-xl font-semibold text-white group-hover:text-gray-300 transition-colors duration-200">{project.title}</h3>
-                          <p className="text-sm mt-0.5" style={{ color: '#888' }}>{project.subtitle}</p>
-                        </div>
-                        <div className="flex items-center gap-3 flex-shrink-0">
-                          <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-medium"
-                            style={{ backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.4)', color: '#4ade80' }}>
-                            {project.status}
-                          </span>
-                          <div style={{ color: '#888' }}>
-                            {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
-                          </div>
-                        </div>
+                  <button type="button" aria-expanded={isExpanded}
+                    className="w-full text-left p-5 cursor-pointer group"
+                    onClick={() => setExpandedProject(isExpanded ? null : project.id)}>
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-white"
+                        style={{ backgroundColor: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                        {project.icon}
                       </div>
-                      <p className="mt-2 text-sm leading-relaxed" style={{ color: '#a0a0a0' }}>{project.summary}</p>
+                      <div className="flex-grow min-w-0">
+                        <h3 className={`text-lg font-semibold text-white leading-snug min-h-[2.75em] group-hover:text-gray-300 transition-colors duration-200 ${isExpanded ? '' : 'line-clamp-2'}`}>{project.title}</h3>
+                        <p className={`text-xs mt-0.5 ${isExpanded ? '' : 'truncate'}`} style={{ color: '#888' }}>{project.subtitle}</p>
+                      </div>
+                      <ChevronDown className={`w-5 h-5 flex-shrink-0 mt-1 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} style={{ color: '#888' }} />
                     </div>
-                  </div>
-                  <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className="px-6 pb-6 pt-0" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-                      <div className="grid md:grid-cols-[1fr,auto] gap-6 pt-5">
-                        <ul className="space-y-3">
+                    <p className={`mt-3 text-sm leading-relaxed min-h-[3.25em] ${isExpanded ? '' : 'line-clamp-2'}`} style={{ color: '#a0a0a0' }}>{project.summary}</p>
+                  </button>
+                  <div className={`grid transition-all duration-500 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                    <div className="overflow-hidden">
+                      <div className="px-5 pb-5 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                        <ul className="space-y-2.5">
                           {project.details.map((detail, j) => (
                             <li key={j} className="flex items-start gap-3 text-sm leading-relaxed" style={{ color: '#c0c0c0' }}>
                               <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-white mt-2"></span>
@@ -525,16 +519,20 @@ function App() {
                             </li>
                           ))}
                         </ul>
-                        <div className="flex flex-col gap-2 md:items-end">
-                          <p className="text-xs uppercase tracking-widest mb-1" style={{ color: '#666' }}>Tech Stack</p>
-                          <div className="flex flex-wrap gap-2 md:justify-end">
-                            {project.tech.map(t => (
-                              <span key={t} className="px-3 py-1 rounded-full text-xs"
-                                style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#d0d0d0' }}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
+                        <div className="flex items-center justify-between gap-3 mt-5 mb-2">
+                          <p className="text-xs uppercase tracking-widest" style={{ color: '#666' }}>Tech Stack</p>
+                          <span className="px-2.5 py-0.5 rounded-full text-xs font-medium"
+                            style={{ backgroundColor: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.4)', color: '#4ade80' }}>
+                            {project.status}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {project.tech.map(t => (
+                            <span key={t} className="px-3 py-1 rounded-full text-xs"
+                              style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', color: '#d0d0d0' }}>
+                              {t}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -611,7 +609,7 @@ function App() {
           <div inert={!showEarlierProjects}
             className={`transition-all duration-500 ease-in-out overflow-hidden ${showEarlierProjects ? 'max-h-[4000px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {projects.map((project, i) => (
+            {projects.map(project => (
               <div key={project.id}
                 className="rounded-2xl overflow-hidden transition-all duration-300 group flex flex-col"
                 style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
